@@ -16,7 +16,7 @@ export default function UploadPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file) return alert("Please select a photo first!");
 
     setIsLoading(true);
     setError('');
@@ -34,12 +34,15 @@ export default function UploadPage() {
       const data = await res.json();
 
       if (res.ok && data.video_url) {
+        alert("✅ Video generated successfully!");
         setVideoURL(data.video_url);
       } else {
+        alert("❌ Something went wrong generating your video.");
         setError(data.message || 'Error generating video.');
         console.error(data.details);
       }
     } catch (err) {
+      alert("❌ Network or server error.");
       setError('Unexpected error. Please try again.');
       console.error(err);
     } finally {
