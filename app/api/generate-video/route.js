@@ -25,6 +25,7 @@ export async function POST(req) {
     body: JSON.stringify({
       input: {
         image: `data:${image.type};base64,${buffer.toString('base64')}`,
+        prompt: "A Room. (Slow moving) Steady dolly shot moving towards the center of the room, slowly. Colors remain desaturated.",
         seed: 42,
         motion: "medium",
         guidance_scale: 7,
