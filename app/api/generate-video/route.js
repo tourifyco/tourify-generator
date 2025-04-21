@@ -13,10 +13,7 @@ export async function POST(req) {
   const arrayBuffer = await image.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
-  // Replace this with your actual Runway API key
-  const RUNWAY_API_KEY = 'key_b3aff2688d5f9e1e1fd6df5caf3fb80c111f9307efa776dc7bb4739f225426ba7e813cd73d480cbcd05896186325f2ec68cfae62e2a9c83e7f64dff4b2cb739d'
-';
-
+  const RUNWAY_API_KEY = 'key_b3aff2688d5f9e1e1fd6df5caf3fb80c111f9307efa776dc7bb4739f225426ba7e813cd73d480cbcd05896186325f2ec68cfae62e2a9c83e7f64dff4b2cb739d';
   const runwayRes = await fetch('https://api.runwayml.com/v1/inference/gen-3', {
     method: 'POST',
     headers: {
