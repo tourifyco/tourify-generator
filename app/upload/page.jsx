@@ -16,7 +16,7 @@ export default function UploadPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Form is working!");
+    alert("Form is working!"); // optional debug
     if (!file) return;
 
     setIsLoading(true);
@@ -35,6 +35,7 @@ export default function UploadPage() {
       const data = await res.json();
 
       if (res.ok && data.video_url) {
+        alert("✅ Video generated successfully!");
         setVideoURL(data.video_url);
       } else {
         setError(data.message || 'Error generating video.');
@@ -50,7 +51,7 @@ export default function UploadPage() {
 
   return (
     <div style={{ padding: '2rem' }}>
-      <h1>Tourify AI – 👀 NEW TEST VERSION</h1>
+      <h1>Tourify AI – 👀 TEST VERSION</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="file"
