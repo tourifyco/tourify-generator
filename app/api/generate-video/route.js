@@ -24,12 +24,16 @@ export async function POST(req) {
       'X-Runway-Version': '2024-11-06'
     },
     body: JSON.stringify({
-      promptImage: `data:${image.type};base64,${base64Image}`,
-      promptText: "A Room. (Slow moving) Steady dolly shot moving towards the center of the room, slowly. Colors remain desaturated.",
-      model: "gen4_turbo",
-      duration: 5,
-      ratio: "1280:720"
-    })
+        promptImage: {
+          uri: `data:${image.type};base64,${base64Image}`,
+          position: 0
+        },
+        promptText: "A Room. (Slow moving) Steady dolly shot moving towards the center of the room, slowly. Colors remain desaturated.",
+        model: "gen4_turbo",
+        duration: 5,
+        ratio: "1280:720"
+      })
+      
   });
 
   const data = await runwayRes.json();
