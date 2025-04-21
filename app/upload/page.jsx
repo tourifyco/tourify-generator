@@ -16,7 +16,6 @@ export default function UploadPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Form is working!"); // optional debug
     if (!file) return;
 
     setIsLoading(true);
@@ -35,7 +34,6 @@ export default function UploadPage() {
       const data = await res.json();
 
       if (res.ok && data.video_url) {
-        alert("✅ Video generated successfully!");
         setVideoURL(data.video_url);
       } else {
         setError(data.message || 'Error generating video.');
@@ -69,7 +67,7 @@ export default function UploadPage() {
         <div>
           <h2>Your Video Tour:</h2>
           <video width="480" controls src={videoURL} />
-          <p><a href={videoURL} target="_blank">Download Video</a></p>
+          <p><a href={videoURL} target="_blank" rel="noopener noreferrer">Download Video</a></p>
         </div>
       )}
 
