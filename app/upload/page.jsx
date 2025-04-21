@@ -3,43 +3,75 @@
 import { useState } from 'react';
 
 export default function UploadPage() {
-  const [files, setFiles] = useState([]);
+  const [videoURL, setVideoURL] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [file, setFile] = useState(null);
 
   const handleFileChange = (e) => {
-    setFiles(Array.from(e.target.files));
+    setFile(e.target.files[0]);
+    setVideoURL(null);
+    setError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!files.length) return;
+    if (!file) return;
+
+    setIsLoading(true);
+    setError('');
+    setVideoURL(null);
 
     const formData = new FormData();
-    files.forEach((file) => {
-      formData.append('images', file);
-    });
+    formData.append('image', file);
 
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
+    try {
+      const res = await fetch('/api/generate-video', {
+        method: 'POST',
+        body: formData,
+      });
 
-    const result = await response.json();
-    alert(result.message || 'Upload complete!');
+      const data = await res.json();
+
+      if (res.ok && data.video_url) {
+        setVideoURL(data.video_url);
+      } else {
+        setError(data.message || 'Error generating video.');
+        console.error(data.details);
+      }
+    } catch (err) {
+      setError('Unexpected error. Please try again.');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div style={{ padding: '2rem' }}>
-      <h1>Upload Property Photos</h1>
+      <h1>🚀 Tourify AI – Generate Your Video</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="file"
           accept="image/*"
-          multiple
           onChange={handleFileChange}
         />
         <br /><br />
-        <button type="submit">Generate Video Tour</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Generating Video...' : 'Generate Video Tour'}
+        </button>
       </form>
+
+      <br />
+      {videoURL && (
+        <div>
+          <h2>Your Video Tour:</h2>
+          <video width="480" controls src={videoURL} />
+          <p><a href={videoURL} target="_blank">Download Video</a></p>
+        </div>
+      )}
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 }
