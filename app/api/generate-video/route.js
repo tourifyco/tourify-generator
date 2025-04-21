@@ -32,7 +32,7 @@ export async function POST(req) {
 
     console.log('📦 Payload being sent to Runway:', JSON.stringify(bodyPayload).slice(0, 500));
 
-    const runwayRes = await fetch('https://api.runwayml.com/v1/image_to_video', {
+    const runwayRes = await fetch('https://api.dev.runwayml.com/v1/image_to_video', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${RUNWAY_API_KEY}`,
