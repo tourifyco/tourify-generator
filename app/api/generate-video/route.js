@@ -1,36 +1,23 @@
 import { NextResponse } from 'next/server';
 
-export async function POST(req) {
-  console.log('✅ Hit /api/generate-video');
+export async function POST() {
+  console.log('✅ Hit /api/generate-video (hosted image test)');
 
   try {
-    const formData = await req.formData();
-    const image = formData.get('image');
+    const RUNWAY_API_KEY = 'key_b3aff2688d5f9e1e1fd6df5caf3fb80c111f9307efa776dc7bb4739f225426ba7e813cd73d480cbcd05896186325f2ec68cfae62e2a9c83e7f64dff4b2cb739d'; // Replace with your real API key
 
-    if (!image) {
-      console.error('⚠️ No image provided.');
-      return NextResponse.json({ message: 'No image provided.' }, { status: 400 });
-    }
-
-    const arrayBuffer = await image.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const base64Image = buffer.toString('base64');
-    const imageMimeType = image.type || 'image/jpeg';
-
-    const RUNWAY_API_KEY = 'your-api-key-here'; // Replace this safely
+    // Use a publicly accessible image URL here (host it on Imgur, Cloudinary, etc.)
+    const hostedImageUrl = 'https://example.com/your-image.jpg'; // CHANGE THIS
 
     const bodyPayload = {
-      promptImage: {
-        uri: `data:${imageMimeType};base64,${base64Image}`,
-        position: 0
-      },
-      promptText: "A Room. (Slow moving) Steady dolly shot moving towards the center of the room, slowly. Colors remain desaturated.",
+      promptImage: hostedImageUrl,
+      promptText: "A Room. Slow camera dolly forward. Desaturated colors.",
       model: "gen4_turbo",
       duration: 5,
       ratio: "1280:720"
     };
 
-    console.log('📦 Payload being sent to Runway:', JSON.stringify(bodyPayload).slice(0, 500));
+    console.log('📦 Sending to Runway:', bodyPayload);
 
     const runwayRes = await fetch('https://api.dev.runwayml.com/v1/image_to_video', {
       method: 'POST',
