@@ -16,6 +16,7 @@ export default function UploadPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    alert("Form is working!");
     if (!file) return;
 
     setIsLoading(true);
@@ -49,7 +50,7 @@ export default function UploadPage() {
 
   return (
     <div style={{ padding: '2rem' }}>
-      <h1>🚀 Tourify AI – Generate Your Video</h1>
+      <h1>Tourify AI – 👀 NEW TEST VERSION</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="file"
